@@ -1,0 +1,29 @@
+package br.insper.campeonato.partida.controller;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+import br.insper.campeonato.common.Erro;
+import br.insper.campeonato.partida.exception.PartidaNaoEncontradaException;
+import br.insper.campeonato.time.exception.TimeNaoEncontradoException;
+
+import java.time.LocalDateTime;
+
+@ControllerAdvice
+public class PartidaAdvice {
+
+    @ExceptionHandler(PartidaNaoEncontradaException.class)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Erro timeNaoEncontradoHandler(PartidaNaoEncontradaException e) {
+        Erro erro = new Erro();
+        erro.setMensagem(e.getMessage());
+        erro.setData(LocalDateTime.now());
+        erro.setCodigo(404);
+        return erro;
+    }
+
+}
